@@ -87,9 +87,24 @@ header {
   text-transform:uppercase;
 }
 
+.datetime {
+  text-align:right;
+}
+
+.clock {
+  font-family:"DM Sans",sans-serif;
+  font-size:clamp(22px,1.7vw,34px);
+  font-weight:500;
+  letter-spacing:-.03em;
+  color:var(--text);
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+}
+
 .date {
+  margin-top:.45vh;
   color:var(--muted);
-  font-size:clamp(11px,.7vw,14px);
+  font-size:clamp(10px,.64vw,13px);
 }
 
 .hero {
@@ -332,7 +347,10 @@ footer .right {
     </div>
   </div>
 
-  <div class="date" id="date">12 October 2026</div>
+  <div class="datetime">
+    <div class="clock" id="clock">--:--:--</div>
+    <div class="date" id="date">12 October 2026</div>
+  </div>
 </header>
 
 <section class="hero">
@@ -424,14 +442,6 @@ footer .right {
       <div class="card">
         <div class="icon">○</div>
         <div>
-          <div class="card-title">Test multiple cities</div>
-          <div class="card-text">Different climates and operating conditions.</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">○</div>
-        <div>
           <div class="card-title">Compare devices</div>
           <div class="card-text">Run several device scenarios instead of one recommendation.</div>
         </div>
@@ -448,8 +458,8 @@ footer .right {
       <div class="card">
         <div class="icon">○</div>
         <div>
-          <div class="card-title">Maps, solar & geothermal</div>
-          <div class="card-text">Validate building data, solar suitability and geothermal scenarios.</div>
+          <div class="card-title">Machine pipe sizing</div>
+          <div class="card-text">Validate pipe sizing for the selected machine and installation scenario.</div>
         </div>
       </div>
 
@@ -481,8 +491,24 @@ footer .right {
       <div class="card">
         <div class="icon">○</div>
         <div>
+          <div class="card-title">Maps integration</div>
+          <div class="card-text">Move building lookup and map services to the final production integration.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">○</div>
+        <div>
+          <div class="card-title">Solar & geothermal</div>
+          <div class="card-text">Validate solar suitability and geothermal scenarios across different houses.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">○</div>
+        <div>
           <div class="card-title">Use final API keys</div>
-          <div class="card-text">Maps, solar, AI and other external services.</div>
+          <div class="card-text">Production keys for maps, solar, AI and other external services.</div>
         </div>
       </div>
 
@@ -528,17 +554,26 @@ footer .right {
 </div>
 
 <script>
-function updateDate() {
+function updateDateTime() {
   const now = new Date();
+
+  document.getElementById("clock").textContent =
+    new Intl.DateTimeFormat("en-GB", {
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit"
+    }).format(now);
+
   document.getElementById("date").textContent =
-    new Intl.DateTimeFormat("en-GB",{
+    new Intl.DateTimeFormat("en-GB", {
       day:"2-digit",
       month:"long",
       year:"numeric"
     }).format(now);
 }
-updateDate();
-setInterval(updateDate,60000);
+
+updateDateTime();
+setInterval(updateDateTime,1000);
 
 document.addEventListener("keydown", e => {
   if(e.key.toLowerCase()==="f") {
